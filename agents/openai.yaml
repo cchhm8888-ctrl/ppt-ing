@@ -1,0 +1,7 @@
+interface:
+  display_name: "PPT-ING"
+  short_description: "从大纲、文档、参考版式和图片素材生成可编辑专业演示文稿"
+  default_prompt: "使用 $ppt-ing 根据我的大纲和资料生成 PPT，先给我代表页视觉预览确认。"
+
+policy:
+  allow_implicit_invocation: true
