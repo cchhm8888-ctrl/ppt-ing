@@ -1,69 +1,86 @@
 ---
 name: ppt-ing
-description: Use when a user asks to generate a presentation, PPT, PPTX, or slide deck from an outline, source files, reference PDF/PPTX, documents, or mixed assets, including requests for style matching, visual previews, editable text, layout selection by answering options, or Canva follow-up.
+description: Create, redesign, extend, or audit editable static and dynamic PPT/PPTX decks from briefs, documents, data, templates, visual references, images, or video. Use for presentation story mapping, layout/theme selection, image and chart composition, native editable slide building, image2 preview-to-editable reconstruction, background-video decks, animation timing, embedded-media extraction, and delivery-package QA.
 ---
 
-# PPT-ING
+# PPT-ING — Presentation Engine V2
 
-## Overview
+Build a presentation as a **story + layout system + editable source file**, not as a stack of screenshots. Default to the shortest safe route and only ask a question when the answer changes facts, the visual direction, or the delivery format.
 
-Turn user-provided facts and assets into a coherent, editable presentation. Treat content structure, visual direction, user approval, and rendered-slide QA as separate gates.
+## Route first
 
-## Required Skills
+Classify the request before working:
 
-- **REQUIRED:** Use `presentations:Presentations` for local PPTX planning, generation, rendering, and verification.
-- Use `pdf:pdf` for PDF references and `documents:documents` for DOCX sources.
-- Use `imagegen` when the user requests image2/image generation, visual previews, or generated artwork.
-- Use `powerpoint` when inspecting or modifying an existing PPTX with its utilities.
-- **OPTIONAL CANVA ROUTE:** Use `canva:canva-branded-presentation` for a new Canva deck and `canva:canva-edit-design` for edits to an existing Canva design.
+| Route | Use when | Output |
+|---|---|---|
+| `rapid-static` | A topic/outline and a clear style/reference already exist | Editable PPTX, source map, QA |
+| `studio-static` | The user explicitly requests image2 previews, options, or visual approval | 1–3 representative previews → editable PPTX → QA |
+| `dynamic` | The user requests video, motion, autoplay, a dynamic template, or synchronization with an existing PPT | Editable PPTX, media map, motion plan, QA, deliverable media |
 
-## Workflow
+If the user provides a decisive reference or template, follow it and do **not** ask layout/color follow-ups. If direction is open, ask one compact question: editorial, structured information, or visual narrative. Read [layout-selection.md](references/layout-selection.md) only for that case.
 
-1. Inventory all supplied files before drafting. Extract facts, images, tables, names, dates, metrics, and source provenance.
-2. Inspect every page or slide of any visual reference. Separate its narrative logic, layout grammar, typography, color, imagery, and recurring page types from its original wording.
-3. Define audience, purpose, aspect ratio, language, slide count, and deliverables. Ask only for missing decisions that materially change the result.
-4. Build a slide-by-slide content map from verified source material. Mark unsupported claims instead of inventing them.
-5. Establish a design brief under `presentations:Presentations`. When visual direction is open, offer the user a compact option-based layout selection before making previews; use [Layout Selection](references/layout-selection.md). Do not ask again when the user has already specified a reference, template, or layout direction.
-6. If preview approval is requested or the design direction remains uncertain, generate representative image2 previews and pause for explicit approval. Translate the selected option(s) into a written layout, type, color, and image-hierarchy specification; do not treat preview artwork as a flattened slide.
-7. Create the editable PPTX only after the content map and visual direction are accepted. Keep titles, body text, page numbers, charts, and factual labels editable.
-8. Offer the Canva branch after a coherent draft exists. Preserve the local PPTX and follow [Canva Handoff](references/canva-handoff.md).
-9. Render every final slide, inspect at full size, run overflow and content checks, fix issues, and re-render affected slides.
-10. Deliver the final PPTX plus the Canva link only when that branch was selected. Keep scratch files and preview assets out of the final deliverables.
+## Required integrations
 
-Read [Production Workflow](references/production-workflow.md) before executing a new deck. Use [QA Checklist](references/qa-checklist.md) before claiming completion.
+- Use `presentations:Presentations` for PPTX generation, rendering, and static verification.
+- Use `powerpoint` for existing PPTX inspection/editing and Office-native fidelity checks.
+- Use `imagegen` only when the user asks for image2/generation or a visual preview.
+- Use `documents:documents`, `pdf:pdf`, or `spreadsheets:Spreadsheets` when the supplied source requires it.
+- Use `scripts/inspect_pptx.py`, `scripts/extract_pptx_media.py`, and `scripts/audit_presentation.py` for deterministic media inspection, export, and pre-delivery checks.
 
-## Non-Negotiable Gates
+## One-pass operating model
 
-- Never fabricate names, course titles, awards, statistics, dates, or outcomes.
-- Never use generated preview images as flattened replacements for editable slide text.
-- Never bypass preview confirmation when the user explicitly requests approval before production.
-- Never overwrite an existing deck unless the user explicitly asks.
-- Never deliver from the first render; complete at least one inspect, fix, and re-verify cycle.
+1. **Read**: inventory the supplied facts, references, templates, assets, and output requirement. Use the latest user-confirmed file as the source of truth.
+2. **Map**: create a concise slide map: `page / job / message / layout / visual / source / motion`. Keep unsupported claims out.
+3. **Build**: apply one selected theme and a small set of page types. Keep all text, lines, charts, labels, numbers, and page markers editable.
+4. **Verify**: render and inspect; repair issues; verify again. For dynamic work, audit media relationships and timing before delivery.
 
-## Option-Based Layout Selection
+Create a `presentation-brief.json` using [presentation-brief.schema.json](schemas/presentation-brief.schema.json) whenever the deck has 8+ slides, dynamic media, or a delivery package. This replaces scattered planning notes.
 
-- Ask one to three short, mutually exclusive option questions only when the user has not supplied a decisive visual reference or explicitly asks to choose a layout.
-- Ask the most consequential choice first: select one layout route. Then ask only necessary follow-ups for information density and imagery.
-- Present two to four concrete options, label one as recommended, and describe the visible result rather than abstract design jargon.
-- Carry the user's selections into a design brief covering page types, grid, type hierarchy, color system, image hierarchy, and charts/tables. Apply it consistently, but vary page composition within the selected route.
-- When a supplied reference conflicts with an option choice, let the explicit reference control typography, color, and page rhythm; use the choice to resolve only the undecided parts.
+## Static deck rules
 
-## Quick Reference
+- Use the smallest number of page types that tells the story well; do not manufacture a 100-layout library per deck.
+- Select page types from [page-types.md](references/page-types.md) based on the information job, not at random.
+- Select theme, type scale, imagery, and charts using [engine-rules.md](references/engine-rules.md).
+- Treat image2 output as a visual reference only: rebuild titles, body text, labels, lines, page numbers, and diagrams as editable PPT objects.
+- Generate a full deck directly in `rapid-static`; only pause for preview approval in `studio-static` or when the user explicitly requests it.
 
-| Input or request | Required response |
+## Dynamic deck rules
+
+Read [dynamic-ppt.md](references/dynamic-ppt.md) before adding video or motion.
+
+- Start from a working editable static deck. Add video as a replaceable media layer; never bake editable text into a video or background image.
+- Produce a `media-map`: `slide / embedded media / exported filename / duration / crop / mute / loop / prompt or source`.
+- Define a `motion-plan`: `object / trigger / effect / start / duration / end state`. Use one reading path; background/media first, then title, detail, diagrams, and footer.
+- For autoplay, set the first editorial object to `With Previous` with the video, then chain the remaining editorial objects `After Previous`; finish their sequence inside the video’s effective duration.
+- Use PowerPoint/WPS-native effects where available. If the runtime cannot create or preserve a native animation, deliver the editable static source plus the motion specification and state that limitation; never claim a non-existent animation.
+- Prefer one restrained transition family per deck. Use Fade as the default; use stronger transitions only when they communicate a structural shift.
+- If the user supplies a final PPTX, export media **from that PPTX**, not from earlier folders. Use `extract_pptx_media.py` and package the exported media with its mapping.
+
+## Delivery modes
+
+| Request | Deliver |
 |---|---|
-| Outline or mixed documents | Extract, normalize, and map each claim to a source |
-| Reference PDF/PPTX | Inspect all pages and reproduce its logic, not its wording |
-| “让我选排版” or no visual direction | Offer compact layout options, record the answers, then build the design brief |
-| “先看预览” or image2 | Generate representative page types and wait for approval |
-| Editable PPT | Build native text and data objects in PPTX |
-| Canva refinement | Use the optional Canva route without replacing the local master |
-| Final delivery | Render, inspect, fix, verify, then return only final artifacts |
+| Static PPT | editable PPTX + optional PDF/PNGs + brief + QA record |
+| Dynamic PPT | editable PPTX + exported embedded media + media map + motion plan + prompts/source notes + QA record |
+| Image2 split | editable single/multi-page PPTX + separated image/text/shape layers + reconstruction notes |
+| Existing-deck audit | audit JSON/TXT + corrected PPTX only if requested |
 
-## Common Mistakes
+Use [delivery-package.md](references/delivery-package.md) to structure packages. Keep prior versions unless the user explicitly requests replacement.
 
-- Starting slide production before the narrative and page types are stable.
-- Matching colors while missing the reference deck's pacing and image hierarchy.
-- Shrinking text instead of editing content or changing the layout.
-- Treating Canva as a guaranteed PPTX import/edit API.
-- Claiming success from a contact sheet without inspecting full-size slides.
+## Non-negotiables
+
+- Never invent names, numbers, dates, achievements, source claims, or project facts.
+- Never flatten editable textual or diagrammatic content into a background image.
+- Never overwrite the user’s master deck without explicit permission.
+- Never reuse a mismatched video folder when the final PPT embeds a different media file.
+- Never deliver from the first render; complete one inspect → fix → re-verify loop.
+- Do not make users approve redundant intermediate steps when they have already chosen the style and content direction.
+
+## Read as needed
+
+- [production-workflow.md](references/production-workflow.md) — route-specific execution.
+- [page-types.md](references/page-types.md) — 18 reusable static/dynamic page types.
+- [engine-rules.md](references/engine-rules.md) — story, theme, typography, image, chart, motion, transition rules.
+- [dynamic-ppt.md](references/dynamic-ppt.md) — video synchronization, editable overlays, media extraction.
+- [qa-checklist.md](references/qa-checklist.md) — visual, content, and technical QA.
+- [delivery-package.md](references/delivery-package.md) — package contents and names.

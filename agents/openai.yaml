@@ -1,7 +1,7 @@
 interface:
-  display_name: "PPT-ING"
-  short_description: "从大纲、文档、参考版式和图片素材生成可编辑专业演示文稿"
-  default_prompt: "使用 $ppt-ing 根据我的大纲和资料生成 PPT，先给我代表页视觉预览确认。"
+  display_name: "PPT-ING Presentation Engine"
+  short_description: "快速生成可编辑静态与动态PPT，并完成媒体和动效验收"
+  default_prompt: "使用 $ppt-ing 根据我的资料生成一份可编辑PPT；如需动态效果，请同步输出媒体映射与动效说明。"
 
 policy:
   allow_implicit_invocation: true
