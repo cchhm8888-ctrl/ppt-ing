@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PPT-ING Presentation Brief",
+  "type": "object",
+  "required": ["title", "mode", "aspect_ratio", "slides"],
+  "properties": {
+    "title": {"type": "string"},
+    "mode": {"enum": ["rapid-static", "studio-static", "dynamic"]},
+    "aspect_ratio": {"enum": ["16:9", "4:3", "custom"]},
+    "audience": {"type": "string"},
+    "purpose": {"type": "string"},
+    "language": {"type": "string"},
+    "visual_route": {"enum": ["editorial", "structured", "narrative", "reference-led"]},
+    "theme": {"type": "object"},
+    "sources": {"type": "array", "items": {"type": "object"}},
+    "slides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["page", "job", "title", "layout"],
+        "properties": {
+          "page": {"type": "integer", "minimum": 1},
+          "job": {"type": "string"},
+          "title": {"type": "string"},
+          "layout": {"type": "string"},
+          "visual": {"type": "string"},
+          "source": {"type": "string"},
+          "motion": {"type": "string"}
+        }
+      }
+    },
+    "deliverables": {"type": "array", "items": {"type": "string"}}
+  }
+}

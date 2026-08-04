@@ -1,37 +1,27 @@
 # QA Checklist
 
-## Content
+## Content and editability
 
-- Slide order matches the approved outline.
-- Section numbers, page numbers, contents page, and internal references agree.
-- Names, titles, dates, metrics, course names, awards, and contact details match sources.
-- No placeholders, duplicated paragraphs, unsupported claims, or internal planning notes remain.
-- Every researched claim and external asset has source provenance where required.
+- Slide order, page numbers, section labels, facts, dates, and source claims agree.
+- No placeholders, hidden planning notes, duplicated copy, accidental date, or image-baked editable text remains.
+- Titles, body, labels, lines, charts, page markers, and diagrams are editable native objects.
 
-## Typography and layout
+## Visual
 
-- Required fonts are explicitly assigned and available, or documented fallbacks are used.
-- Titles do not wrap unexpectedly.
-- Body text meets the minimum size required by `presentations:Presentations`.
-- Paragraphs, captions, and labels have consistent line spacing and hierarchy.
-- No text, image, shape, footer, or page marker exceeds the slide canvas.
-- No unintended overlaps, clipped crops, stretched portraits, or low-contrast text remain.
-- Adjacent slides vary in composition while preserving the design system.
+- Render every slide and inspect full size.
+- Check text overflow, cropping, low contrast, margins, alignment, rhythm, font fallbacks, and repeated-layout fatigue.
+- Check image generation artifacts: accidental words, watermarks, broken perspective, distorted people, and duplicated details.
 
-## Images and data
+## Dynamic
 
-- Images are clear at final display size and cropped naturally.
-- The same image is not reused unless intentionally used as a background or motif.
-- Charts and tables match the underlying data and remain editable when practical.
-- Generated visuals do not contain accidental text, watermarks, or misleading details.
+- Confirm slide count, embedded media count, media-to-slide mapping, duration, crop, mute, loop, and external-link absence.
+- Confirm the video and first editable layer start together; remaining effects follow a readable sequence; editable overlays finish within the effective media window.
+- Confirm transitions and autoplay behavior in the target application.
 
-## Verification loop
+## Closeout
 
-1. Render every slide from the final PPTX.
-2. Inspect every slide individually at full size.
-3. Record and fix all issues found.
-4. Re-render every affected slide.
-5. Run overflow and content extraction checks.
-6. Confirm no new issue appears after the fix.
-
-Do not mark the deck complete before at least one fix-and-reverify cycle.
+1. Render → inspect → list issues.
+2. Fix the issues.
+3. Re-render affected slides.
+4. Run `audit_presentation.py` and review its output.
+5. Deliver the PPTX plus only the requested supporting files.
