@@ -1,0 +1,46 @@
+[
+  {
+    "slug": "yun-an-headquarters",
+    "source": "01_云岸总部园区.mp4",
+    "duration_seconds": 244.383333,
+    "timestamps": [
+      4,
+      73.31499989999999,
+      134.41083315,
+      190.61899974
+    ]
+  },
+  {
+    "slug": "offshore-wind",
+    "source": "03海上风电_动态PPT_22页_编辑层舒缓统一节奏版.mp4",
+    "duration_seconds": 191.9,
+    "timestamps": [
+      4,
+      61,
+      105.54500000000002,
+      149.68200000000002
+    ]
+  },
+  {
+    "slug": "ai-design",
+    "source": "AI设计导论.mp4",
+    "duration_seconds": 258.933333,
+    "timestamps": [
+      12,
+      77.6799999,
+      142.41333315000003,
+      201.96799974
+    ]
+  },
+  {
+    "slug": "shanhai-art",
+    "source": "山海之间_东方当代艺术展_动效同步加强版.mp4",
+    "duration_seconds": 170.9,
+    "timestamps": [
+      4,
+      51.27,
+      93.995,
+      133.30200000000002
+    ]
+  }
+]
