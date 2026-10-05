@@ -4,9 +4,7 @@
 
 PPT-ING v5 是面向 Codex 的 Skill，适用于产品介绍、工作汇报、课程演示、策展提案，以及已有 PPT 的重设计、扩展和审查。
 
-[安装与使用](#快速开始) · [准备清单](#使用前需要准备什么) · [案例图片](#现有项目案例) · [常见问题](#常见问题)
-
-![东方艺术展项目封面](examples/images/art-exhibition-cover.png)
+[安装与使用](#快速开始) · [准备清单](#使用前需要准备什么) · [视频案例](#现有项目案例) · [常见问题](#常见问题)
 
 ## 快速开始
 
@@ -133,29 +131,35 @@ $ppt-ing 检查这份 PPT 的错别字、文字溢出和数据单位，修正发
 
 ## 现有项目案例
 
-以下图片来自作者本地已有项目，用于展示视觉方向和工作阶段。图片展示不代表所有历史项目均已按当前 v5 完成验收；静态预览不能证明动画或可编辑性。
+以下为作者提供的四个动态 PPT 视频案例。点击链接下载原始 MP4，可使用浏览器或本地播放器观看完整演示。
 
-### 1 · AI 创意思维课程平台
+### 1 · 云岸总部园区
 
-蓝紫色教育产品介绍，结合课程叙事、真实界面和功能说明。图片来自本地“蓝紫轻拟物最终可编辑版”目录。
+[下载 / 观看完整视频：云岸总部园区](https://github.com/cchhm8888-ctrl/ppt-ing/releases/download/video-cases/01_%E4%BA%91%E5%B2%B8%E6%80%BB%E9%83%A8%E5%9B%AD%E5%8C%BA.mp4)
 
-![课程平台介绍页](examples/images/course-platform-cover.png)
+文件：`01_云岸总部园区.mp4` · MP4 · 265.9 MiB。
 
-![课程平台工作台展示页](examples/images/course-platform-workbench.png)
+### 2 · 海上风电 · 22 页
 
-### 2 · 山海之间：东方当代艺术展
+[下载 / 观看完整视频：海上风电 · 22 页](https://github.com/cchhm8888-ctrl/ppt-ing/releases/download/video-cases/03%E6%B5%B7%E4%B8%8A%E9%A3%8E%E7%94%B5_%E5%8A%A8%E6%80%81PPT_22%E9%A1%B5_%E7%BC%96%E8%BE%91%E5%B1%82%E8%88%92%E7%BC%93%E7%BB%9F%E4%B8%80%E8%8A%82%E5%A5%8F%E7%89%88.mp4)
 
-东方水墨、纸张肌理与米白 / 墨绿配色。图片来自本地 `重构_v3/render` 目录的封面渲染。
+文件：`03海上风电_动态PPT_22页_编辑层舒缓统一节奏版.mp4` · MP4 · 176.2 MiB。
 
-![山海之间艺术展封面](examples/images/art-exhibition-cover.png)
+### 3 · AI 设计导论
 
-### 3 · 芯片时代：产品发布视觉参考
+[下载 / 观看完整视频：AI 设计导论](https://github.com/cchhm8888-ctrl/ppt-ing/releases/download/video-cases/AI%E8%AE%BE%E8%AE%A1%E5%AF%BC%E8%AE%BA.mp4)
 
-深蓝科技视觉、芯片特写与结构分解。下图来自本地 v5 项目的**无文字版式参考总览**，展示制作前的视觉规划阶段。
+文件：`AI设计导论.mp4` · MP4 · 279.6 MiB。
 
-![芯片产品发布无文字版式参考](examples/images/chip-launch-layout-reference.png)
+### 4 · 山海之间 · 东方当代艺术展
 
-本仓库提供以上预览图片，未附带对应项目完整 PPTX。来源与阶段记录见 [案例说明](examples/README.md)。
+[下载 / 观看完整视频：山海之间 · 东方当代艺术展](https://github.com/cchhm8888-ctrl/ppt-ing/releases/download/video-cases/%E5%B1%B1%E6%B5%B7%E4%B9%8B%E9%97%B4_%E4%B8%9C%E6%96%B9%E5%BD%93%E4%BB%A3%E8%89%BA%E6%9C%AF%E5%B1%95_%E5%8A%A8%E6%95%88%E5%90%8C%E6%AD%A5%E5%8A%A0%E5%BC%BA%E7%89%88.mp4)
+
+文件：`山海之间_东方当代艺术展_动效同步加强版.mp4` · MP4 · 171.4 MiB。
+
+[查看全部视频附件](https://github.com/cchhm8888-ctrl/ppt-ing/releases/tag/video-cases) · [案例说明](examples/README.md)
+
+视频保留原始文件，不附带项目 PPTX。MP4 展示播放效果，可编辑对象需要查看对应 PPTX。
 
 ## 会得到什么
 
@@ -171,7 +175,7 @@ $ppt-ing 检查这份 PPT 的错别字、文字溢出和数据单位，修正发
 
 **没有 PowerPoint 可以完成吗？** 取决于环境中的制作能力；没有真实 PowerPoint 时，不能宣称已通过技能要求的 PowerPoint 渲染与动画 QA。
 
-**案例图片能直接变成可编辑 PPT 吗？** 图片可作为参考，需要按版式规格或 FigEdit 分解重建。整页截图本身不提供内部对象的可编辑性。
+**视频案例包含可编辑 PPT 吗？** 当前案例提供 MP4 视频，未附带对应 PPTX。需要可编辑交付时，请在任务中明确要求原生可编辑 PPTX。
 
 **品牌模板怎么复用？** 提供 PPTX / POTX，并明确授权复用主题、母版或组件；截图作为风格信号分析。
 
@@ -183,7 +187,7 @@ $ppt-ing 检查这份 PPT 的错别字、文字溢出和数据单位，修正发
 - `schemas/`：v5 brief 与 slide spec 的 JSON Schema。
 - `scripts/`：PPT 与动画审计脚本。
 - `tests/`：合同与 Schema 检查。
-- `examples/`：项目案例说明与预览图片。
+- `examples/`：视频案例说明与链接。
 
 在仓库目录中执行开发检查：
 
