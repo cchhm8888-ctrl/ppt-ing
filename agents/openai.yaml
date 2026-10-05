@@ -1,7 +1,12 @@
 interface:
-  display_name: "PPT-ING"
-  short_description: "从大纲、文档、参考版式和图片素材生成可编辑专业演示文稿"
-  default_prompt: "使用 $ppt-ing 根据我的大纲和资料生成 PPT，先给我代表页视觉预览确认。"
-
-policy:
-  allow_implicit_invocation: true
+  display_name: "PPT-ING Presentation Engine v5"
+  short_description: "One intake, research, approved design contract, reference-locked editable PPT, and native motion QA."
+  default_prompt: >-
+    Use PPT-ING v5. Ask the eight intake items once, analyze optional references/templates,
+    run compact Pinterest research, output the complete proposal and slide table, and wait
+    for approval. Then offer A plan-native, B no-text reference bundle reconstruction, or
+    C full-page FigEdit decomposition. For 12+ slides enforce cover/index/section/content/
+    summary/closing; for 15+ slides use at least eight layout variants, four typography
+    presets, purposeful shape masks, design commitments, and expected object IDs. Build
+    editable native objects, preserve approved composition, and pass PowerPoint render,
+    reference-fidelity, editability, and motion QA.

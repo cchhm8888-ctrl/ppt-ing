@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ppt-ing.local/schemas/presentation-brief-v5.json",
+  "title": "PPT-ING Presentation Brief v5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version", "deck_id", "interaction_mode", "workflow_stage", "intake",
+    "pinterest_research", "reference_pack", "creative_plan", "approval",
+    "deck_structure", "visual_realization", "motion_system", "slides"
+  ],
+  "properties": {
+    "version": { "const": 5 },
+    "deck_id": { "type": "string", "minLength": 1 },
+    "interaction_mode": { "enum": ["proposal-first", "direct", "lightweight"] },
+    "workflow_stage": { "enum": ["intake", "research", "proposal", "awaiting-approval", "visual-target-selection", "reference-generation", "awaiting-reference-approval", "production", "qa", "complete"] },
+    "intake": { "$ref": "#/$defs/intake" },
+    "pinterest_research": { "$ref": "#/$defs/pinterestResearch" },
+    "reference_pack": { "$ref": "#/$defs/referencePack" },
+    "creative_plan": { "$ref": "#/$defs/creativePlan" },
+    "approval": { "$ref": "#/$defs/approval" },
+    "deck_structure": { "$ref": "#/$defs/deckStructure" },
+    "visual_realization": { "$ref": "#/$defs/visualRealization" },
+    "motion_system": { "$ref": "#/$defs/motionSystem" },
+    "slides": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/briefSlide" } }
+  },
+  "$defs": {
+    "intake": {
+      "type": "object", "additionalProperties": false,
+      "required": ["goal_audience", "sources", "format", "copy", "visual_language", "color", "layout", "motion"],
+      "properties": {
+        "goal_audience": { "$ref": "#/$defs/intakeAnswer" },
+        "sources": { "$ref": "#/$defs/intakeAnswer" },
+        "format": { "$ref": "#/$defs/intakeAnswer" },
+        "copy": { "$ref": "#/$defs/intakeAnswer" },
+        "visual_language": { "$ref": "#/$defs/intakeAnswer" },
+        "color": { "$ref": "#/$defs/intakeAnswer" },
+        "layout": { "$ref": "#/$defs/intakeAnswer" },
+        "motion": { "$ref": "#/$defs/intakeAnswer" }
+      }
+    },
+    "intakeAnswer": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value", "source"],
+      "properties": { "value": {}, "source": { "enum": ["user", "inferred", "recommended", "file"] } }
+    },
+    "pinterestResearch": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "signals"],
+      "properties": {
+        "status": { "enum": ["complete", "unavailable", "skipped-lightweight"] },
+        "reason": { "type": ["string", "null"] },
+        "signals": { "type": "array", "maxItems": 5, "items": { "$ref": "#/$defs/researchSignal" } }
+      }
+    },
+    "researchSignal": {
+      "type": "object", "additionalProperties": false,
+      "required": ["title", "url", "accessed_at", "transferable_signals"],
+      "properties": {
+        "title": { "type": "string" }, "url": { "type": "string", "format": "uri" },
+        "accessed_at": { "type": "string", "format": "date-time" },
+        "transferable_signals": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "referencePack": {
+      "type": "object", "additionalProperties": false,
+      "required": ["items", "template_reuse_mode"],
+      "properties": {
+        "template_reuse_mode": { "enum": ["none", "style-reference", "theme-and-masters"] },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/referenceItem" } }
+      }
+    },
+    "referenceItem": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "source_class", "path_or_url", "permission", "usage"],
+      "properties": {
+        "id": { "type": "string" },
+        "source_class": { "enum": ["user-template", "user-style-reference", "licensed-library", "pinterest-signal"] },
+        "path_or_url": { "type": "string" }, "permission": { "type": "string" }, "usage": { "type": "string" }
+      }
+    },
+    "creativePlan": {
+      "type": "object", "additionalProperties": false,
+      "required": ["version", "template_packs", "copy", "visual_language", "color", "layout", "components", "motion", "imagery", "typography", "special_effects"],
+      "properties": {
+        "version": { "type": "integer", "minimum": 1 },
+        "template_packs": { "type": "array", "minItems": 1, "maxItems": 3, "items": { "type": "string" } },
+        "copy": { "type": "object" }, "visual_language": { "type": "object" }, "color": { "type": "object" },
+        "layout": { "type": "object" }, "components": { "type": "object" }, "motion": { "type": "object" },
+        "imagery": { "type": "object" }, "typography": { "type": "object" }, "special_effects": { "type": "object" }
+      }
+    },
+    "approval": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["pending", "approved", "revision_requested", "bypassed"] },
+        "evidence": { "type": ["string", "null"] }
+      }
+    },
+    "deckStructure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["slide_count", "required_roles", "section_count", "layout_families", "layout_variants", "typography_presets", "approved_exceptions"],
+      "properties": {
+        "slide_count": { "type": "integer", "minimum": 1 },
+        "required_roles": { "type": "array", "items": { "$ref": "#/$defs/pageRole" } },
+        "section_count": { "type": "integer", "minimum": 0 },
+        "layout_families": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "layout_variants": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "typography_presets": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "approved_exceptions": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "pageRole": { "enum": ["cover", "index", "section-divider", "content", "summary", "closing"] },
+    "visualRealization": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mode", "page_reference_mode", "reference_approval_status"],
+      "properties": {
+        "mode": { "enum": ["plan-native", "layout-reconstruction", "figedit-decomposition"] },
+        "page_reference_mode": { "enum": ["none", "no-text-layout", "full-page-ai-copy"] },
+        "reference_approval_status": { "enum": ["not-required", "pending", "approved", "bypassed"] }
+      },
+      "allOf": [
+        { "if": { "properties": { "mode": { "const": "plan-native" } } }, "then": { "properties": { "page_reference_mode": { "const": "none" } } } },
+        { "if": { "properties": { "mode": { "const": "layout-reconstruction" } } }, "then": { "properties": { "page_reference_mode": { "const": "no-text-layout" } } } },
+        { "if": { "properties": { "mode": { "const": "figedit-decomposition" } } }, "then": { "properties": { "page_reference_mode": { "const": "full-page-ai-copy" } } } }
+      ]
+    },
+    "motionSystem": {
+      "type": "object", "additionalProperties": false,
+      "required": ["profile", "advance_mode", "absolute_timing"],
+      "properties": {
+        "profile": { "enum": ["M0-static", "M1-calm-reveal", "M2-narrative-continuity", "M3-video-synced"] },
+        "advance_mode": { "enum": ["manual", "timed"] },
+        "absolute_timing": { "type": "boolean", "const": true }
+      }
+    },
+    "briefSlide": {
+      "type": "object", "additionalProperties": false,
+      "required": ["page", "spec_id", "page_role", "section_id", "narrative_job", "title", "core_copy", "layout_family", "layout_variant_id", "primary_visual", "shape_recipe", "typography_preset", "motion_recipe", "design_commitments", "expected_object_ids", "source"],
+      "properties": {
+        "page": { "type": "integer", "minimum": 1 }, "spec_id": { "type": "string" },
+        "page_role": { "$ref": "#/$defs/pageRole" }, "section_id": { "type": ["string", "null"] },
+        "narrative_job": { "type": "string", "minLength": 1 }, "title": { "type": "string" }, "core_copy": { "type": "string" },
+        "layout_family": { "type": "string" }, "layout_variant_id": { "type": "string" }, "primary_visual": { "type": "string" },
+        "shape_recipe": { "type": "string" }, "typography_preset": { "type": "string" }, "motion_recipe": { "type": "string" },
+        "design_commitments": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/designCommitment" } },
+        "expected_object_ids": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true },
+        "source": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "designCommitment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "statement", "object_ids", "acceptance_check"],
+      "properties": {
+        "id": { "type": "string" }, "statement": { "type": "string", "minLength": 1 },
+        "object_ids": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "acceptance_check": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

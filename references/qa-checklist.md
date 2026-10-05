@@ -1,37 +1,42 @@
-# QA Checklist
+# QA and Acceptance
 
-## Content
+## Structural
 
-- Slide order matches the approved outline.
-- Section numbers, page numbers, contents page, and internal references agree.
-- Names, titles, dates, metrics, course names, awards, and contact details match sources.
-- No placeholders, duplicated paragraphs, unsupported claims, or internal planning notes remain.
-- Every researched claim and external asset has source provenance where required.
+- 12+ slides contain cover, index, section divider, content, summary, and closing unless an approved exception exists.
+- 15–24 slides use 2–4 dividers and at least 8 variants.
+- No identical composition occurs three consecutive times.
+- Card-like pages ≤35%; repeated title geometry ≤40%.
 
-## Typography and layout
+## Typography
 
-- Required fonts are explicitly assigned and available, or documented fallbacks are used.
-- Titles do not wrap unexpectedly.
-- Body text meets the minimum size required by `presentations:Presentations`.
-- Paragraphs, captions, and labels have consistent line spacing and hierarchy.
-- No text, image, shape, footer, or page marker exceeds the slide canvas.
-- No unintended overlaps, clipped crops, stretched portraits, or low-contrast text remain.
-- Adjacent slides vary in composition while preserving the design system.
+- Six roles resolve through the font registry and measured frames.
+- 15+ slides use at least 4 named presets and 3 purposeful treatments.
+- Body, caption, page number, and chart labels have no heavy outline, shadow, glow, or decorative font.
+- No overflow, orphan character, unsafe line break, or fallback-induced reflow.
 
-## Images and data
+## Composition and editability
 
-- Images are clear at final display size and cropped naturally.
-- The same image is not reused unless intentionally used as a background or motif.
-- Charts and tables match the underlying data and remain editable when practical.
-- Generated visuals do not contain accidental text, watermarks, or misleading details.
+- Every page has a visual anchor and purposeful reading path.
+- Every commitment and expected object exists.
+- Images are independent resources; text/data/labels/charts/semantic shapes are native.
+- Masks preserve focal subjects and copy-safe areas.
+- No empty card, line, ring, capsule, border, shadow, or glow exists only to fill space.
 
-## Verification loop
+## Reference fidelity
 
-1. Render every slide from the final PPTX.
-2. Inspect every slide individually at full size.
-3. Record and fix all issues found.
-4. Re-render every affected slide.
-5. Run overflow and content extraction checks.
-6. Confirm no new issue appears after the fix.
+- B pages contain the four-file bundle and approved revision.
+- C pages contain full-page approval and FigEdit extraction evidence.
+- PPTX render matches composite/reference in frame geometry, baselines, crop/focal, whitespace, masks, hierarchy, component count, and color.
+- Reference PNG is never called the final PPT preview.
 
-Do not mark the deck complete before at least one fix-and-reverify cycle.
+## Motion
+
+- Real PowerPoint timeline inspected.
+- Morph anchors exist in both adjacent slides with the same semantic role.
+- Background media is sequence item 1 at t=0, muted, looping, bottommost.
+- Editable reveals use `With Previous` and absolute delays.
+- Manual advance and static fallback are valid.
+
+## Final proof
+
+Render all pages from the delivered PPTX revision. Inspect page PNGs and a contact sheet, perform at least one correction/re-render cycle, then run deterministic structure and motion audits. Static images alone cannot pass motion QA.

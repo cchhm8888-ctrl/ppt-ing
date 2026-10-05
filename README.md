@@ -1,72 +1,42 @@
-# PPT-ING
+# PPT-ING Presentation Engine v5
 
-> 从大纲或用户资料出发，生成有明确视觉方向、可编辑、并经过逐页校验的 PowerPoint。
-
-`PPT-ING` 是一个面向课程、方案、汇报、宣传册和作品展示的 PPT 生成 Skill。它把资料梳理、叙事结构、版式选择、视觉预览、可编辑 PPTX 制作和最终质检串成一套稳定流程。
-
-## 能做什么
-
-- 基于 Word、PDF、PPTX、表格、图片和文字大纲提取并核验内容。
-- 参考 PDF/PPTX 的版式逻辑、字体层级、色彩与画面节奏，但不照搬原文。
-- 在视觉方向未确定时，通过选项让用户选择版式与信息密度。
-- 根据需要生成 image2 版式预览，确认后再制作完整 PPT。
-- 保留标题、正文、页码、图表和事实标签的可编辑性。
-- 支持 Canva 二次排版；本地 PPTX 始终作为可追溯母版保留。
-- 渲染并检查每一页，修复溢出、遮挡、图片裁切和版式不一致问题。
-
-## 使用方式
-
-在 Codex 中直接调用：
-
-```text
-$ppt-ing，根据我的大纲和资料生成一份 16:9 的课程 PPT。
-```
-
-也可以附带明确要求：
-
-```text
-$ppt-ing，参考这份 PDF 的视觉语言，先给我 4 张内容页预览，确认后再生成完整 PPT。
-```
-
-## 版式选择
-
-当没有明确参考风格，或希望自行决定视觉路线时，PPT-ING 会提供简短选项：
-
-| 选项 | 版式方向 | 适用场景 |
-|---|---|---|
-| A | 编辑画册 | 宣传、教学、作品展示与品牌表达 |
-| B | 结构信息 | 报告、方案、培训与数据型内容 |
-| C | 视觉叙事 | 路演、发布、情绪化展示与主题演讲 |
-
-随后可按需要选择信息密度、视觉素材来源与色彩方向。用户选择会转化为整套 PPT 的网格、字体、图片层级和页面类型规范。
+用于 Codex 的可编辑 PowerPoint 制作技能。支持新建、重设计、扩展、重建与审查演示文稿。
 
 ## 工作流程
 
-```text
-资料盘点 → 内容溯源 → 大纲与页型 → 版式选择/视觉预览
-→ 可编辑 PPTX → Canva 二次布局（可选） → 渲染质检 → 交付
+一次需求收集 → 参考研究 → 完整方案确认 → 选择视觉参考路径 → 原生可编辑对象制作 → PowerPoint 渲染与质量检查。
+
+提供三条路径：直接按方案构建、无文字版式参考重建、完整页面参考与 FigEdit 分解。包含设计系统、版式库、字体与形状规范、动画规则、JSON Schema 和审计脚本。
+
+## 安装
+
+将整个仓库放在 Codex 技能目录中的 `ppt-ing` 文件夹。仓库为私有时，需要先获得访问权限。
+
+```powershell
+git clone https://github.com/cchhm8888-ctrl/ppt-ing.git "$env:USERPROFILE\.codex\skills\ppt-ing"
 ```
 
-## 仓库结构
+如果目标目录已存在，请先备份，避免覆盖本地修改。重新打开 Codex 后，在对话中使用 `$ppt-ing`。
 
-```text
-.
-├── SKILL.md                     # Skill 主流程
-├── agents/openai.yaml           # Codex 界面元数据
-└── references/
-    ├── layout-selection.md      # 选项式版式选择规则
-    ├── production-workflow.md   # 制作流程
-    ├── qa-checklist.md          # 渲染与版式质检
-    └── canva-handoff.md         # Canva 二次排版交接
+示例：`$ppt-ing 根据我的资料制作一份 16:9 的中文产品介绍 PPT。`
+
+## 依赖与能力
+
+本仓库是技能与规范包。实际制作需使用 Codex 的 Presentations 能力；完整页面分解路径使用 FigEdit，概念视觉素材按需使用 imagegen。视觉与动画 QA 需要真实 PowerPoint 环境。相关能力需在使用环境中单独可用。
+
+## 文件
+
+- `SKILL.md`：主流程与质量门槛。
+- `agents/openai.yaml`：技能界面元数据。
+- `references/`：需求、设计、模板、重建、动画与 QA 规范。
+- `schemas/`：v5 brief 与 slide spec 的 JSON Schema。
+- `scripts/`：演示文稿与动画审计脚本。
+- `tests/`：合同与 Schema 检查。
+
+## 验证
+
+```powershell
+python tests/run_contract_tests.py
+python -m pip install pytest jsonschema
+python -m pytest tests/test_contracts.py -q
 ```
-
-## 版本
-
-- `v0.1.0`：初始发布，包含资料溯源、视觉预览、版式选项、可编辑 PPTX、Canva 交接与逐页质检流程。
-
-## 使用原则
-
-- 不虚构姓名、课程、数据、奖项、日期或成果。
-- 用户明确要求预览确认时，不跳过确认环节。
-- 不用生成的预览图替代可编辑的 PPT 文本。
-- 不以首次渲染作为最终交付，必须完成检查、修复与复验。

@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ppt-ing.local/schemas/slide-spec-v5.json",
+  "title": "PPT-ING Slide Spec v5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "deck_id", "canvas", "font_registry", "asset_manifest", "slides"],
+  "properties": {
+    "version": { "const": 5 },
+    "deck_id": { "type": "string", "minLength": 1 },
+    "canvas": { "$ref": "#/$defs/canvas" },
+    "font_registry": { "type": "object", "additionalProperties": { "$ref": "#/$defs/fontRecord" } },
+    "asset_manifest": { "type": "array", "items": { "$ref": "#/$defs/assetRecord" } },
+    "slides": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/slide" } }
+  },
+  "$defs": {
+    "canvas": {
+      "type": "object", "additionalProperties": false, "required": ["width_in", "height_in", "aspect_ratio"],
+      "properties": {
+        "width_in": { "type": "number", "exclusiveMinimum": 0 }, "height_in": { "type": "number", "exclusiveMinimum": 0 },
+        "aspect_ratio": { "type": "string" }
+      }
+    },
+    "frame": {
+      "type": "object", "additionalProperties": false, "required": ["x", "y", "w", "h", "unit"],
+      "properties": {
+        "x": { "type": "number" }, "y": { "type": "number" }, "w": { "type": "number", "exclusiveMinimum": 0 },
+        "h": { "type": "number", "exclusiveMinimum": 0 }, "unit": { "enum": ["in", "normalized"] }
+      }
+    },
+    "fontRecord": {
+      "type": "object", "additionalProperties": false, "required": ["family", "fallbacks", "verified"],
+      "properties": {
+        "family": { "type": "string" }, "fallbacks": { "type": "array", "items": { "type": "string" } },
+        "verified": { "type": "boolean" }, "notes": { "type": "string" }
+      }
+    },
+    "assetRecord": {
+      "type": "object", "additionalProperties": false,
+      "required": ["asset_id", "acquisition_method", "path_or_resource", "usage", "slides", "status"],
+      "properties": {
+        "asset_id": { "type": "string" },
+        "acquisition_method": { "enum": ["user", "reference", "sourced", "imagegen", "native", "template", "video"] },
+        "path_or_resource": { "type": "string" }, "usage": { "type": "string" },
+        "slides": { "type": "array", "items": { "type": "integer", "minimum": 1 } },
+        "status": { "enum": ["planned", "ready", "failed", "exception"] },
+        "prompt": { "type": "string" }, "negative_prompt": { "type": "string" }, "provenance": { "type": "string" }
+      }
+    },
+    "slide": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "slide_id", "page", "page_role", "section_id", "narrative_job", "layout_family", "layout_variant_id",
+        "design_commitments", "expected_object_ids", "typography_slots", "shape_composition", "background",
+        "elements", "motion_plan", "reference_bundle", "reference_mapping", "render_status"
+      ],
+      "properties": {
+        "slide_id": { "type": "string" }, "page": { "type": "integer", "minimum": 1 },
+        "page_role": { "enum": ["cover", "index", "section-divider", "content", "summary", "closing"] },
+        "section_id": { "type": ["string", "null"] }, "narrative_job": { "type": "string", "minLength": 1 },
+        "layout_family": { "type": "string" }, "layout_variant_id": { "type": "string" },
+        "design_commitments": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/designCommitment" } },
+        "expected_object_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } },
+        "typography_slots": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/typographySlot" } },
+        "shape_composition": { "type": "array", "items": { "$ref": "#/$defs/shapeRecipe" } },
+        "background": { "$ref": "#/$defs/background" },
+        "elements": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/element" } },
+        "motion_plan": { "$ref": "#/$defs/motionPlan" },
+        "reference_bundle": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/referenceBundle" }] },
+        "reference_mapping": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/referenceMapping" }] },
+        "render_status": { "enum": ["not-rendered", "rendered", "qa-failed", "qa-passed"] }
+      }
+    },
+    "designCommitment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "statement", "object_ids", "acceptance_check"],
+      "properties": {
+        "id": { "type": "string" }, "statement": { "type": "string" },
+        "object_ids": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "acceptance_check": { "type": "string" }
+      }
+    },
+    "typographySlot": {
+      "type": "object", "additionalProperties": false,
+      "required": ["slot_id", "role", "element_ids", "font_key", "size_pt", "weight", "color_token", "line_height", "tracking_pt", "max_lines", "alignment", "effect", "frame", "text_safe_zone_id"],
+      "properties": {
+        "slot_id": { "type": "string" }, "role": { "enum": ["Display", "Section", "Title", "Body", "Caption", "Numeral"] },
+        "element_ids": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "font_key": { "type": "string" }, "size_pt": { "type": "number", "exclusiveMinimum": 0 }, "weight": { "type": ["string", "integer"] },
+        "color_token": { "type": "string" }, "line_height": { "type": "number", "exclusiveMinimum": 0 },
+        "tracking_pt": { "type": "number" }, "max_lines": { "type": "integer", "minimum": 1 },
+        "alignment": { "enum": ["left", "center", "right", "justify", "vertical"] },
+        "effect": { "type": "object" }, "frame": { "$ref": "#/$defs/frame" }, "text_safe_zone_id": { "type": ["string", "null"] }
+      }
+    },
+    "shapeRecipe": {
+      "type": "object", "additionalProperties": false,
+      "required": ["shape_id", "role", "geometry", "frame", "fill_type", "fill_color_or_asset", "transparency", "gradient", "crop", "focal_point", "mask_or_overlay", "border", "shadow", "z_order", "text_safe_zone", "editable_status"],
+      "properties": {
+        "shape_id": { "type": "string" }, "role": { "type": "string" }, "geometry": { "type": "string" }, "frame": { "$ref": "#/$defs/frame" },
+        "fill_type": { "enum": ["solid", "gradient", "image", "texture", "none"] }, "fill_color_or_asset": { "type": ["string", "null"] },
+        "transparency": { "type": "number", "minimum": 0, "maximum": 1 }, "gradient": { "type": ["object", "null"] },
+        "crop": { "type": ["object", "null"] }, "focal_point": { "type": ["object", "null"] }, "mask_or_overlay": { "type": ["object", "null"] },
+        "border": { "type": ["object", "null"] }, "shadow": { "type": ["object", "null"] }, "z_order": { "type": "integer" },
+        "text_safe_zone": { "type": ["object", "null"] }, "editable_status": { "enum": ["native", "editable-vector", "independent-image", "flattened-approved"] }
+      }
+    },
+    "background": {
+      "type": "object", "additionalProperties": false, "required": ["layers"],
+      "properties": {
+        "layers": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/backgroundLayer" } }
+      }
+    },
+    "backgroundLayer": {
+      "type": "object", "additionalProperties": false, "required": ["id", "kind", "z_order"],
+      "properties": {
+        "id": { "type": "string" }, "kind": { "enum": ["solid", "gradient", "image", "texture", "native-composition", "video"] },
+        "asset_id": { "type": ["string", "null"] }, "z_order": { "type": "integer" }, "settings": { "type": "object" }
+      }
+    },
+    "element": {
+      "type": "object", "additionalProperties": false,
+      "required": ["element_id", "kind", "frame", "z_order", "editable_status"],
+      "properties": {
+        "element_id": { "type": "string" }, "kind": { "enum": ["text", "image", "shape", "chart", "table", "diagram", "icon", "video"] },
+        "frame": { "$ref": "#/$defs/frame" }, "z_order": { "type": "integer" },
+        "editable_status": { "enum": ["native", "editable-vector", "independent-image", "flattened-approved"] },
+        "content": {}, "asset_id": { "type": ["string", "null"] }, "style": { "type": "object" }
+      }
+    },
+    "motionPlan": {
+      "type": "object", "additionalProperties": false,
+      "required": ["profile", "principal_action", "groups", "morph_anchors", "first_frame_readable"],
+      "properties": {
+        "profile": { "enum": ["M0-static", "M1-calm-reveal", "M2-narrative-continuity", "M3-video-synced"] },
+        "principal_action": { "type": "string" },
+        "groups": { "type": "array", "maxItems": 5, "items": { "$ref": "#/$defs/motionGroup" } },
+        "morph_anchors": { "type": "array", "items": { "type": "string" } },
+        "first_frame_readable": { "type": "boolean", "const": true }
+      }
+    },
+    "motionGroup": {
+      "type": "object", "additionalProperties": false,
+      "required": ["group_id", "element_ids", "effect", "trigger", "start_s", "duration_s"],
+      "properties": {
+        "group_id": { "type": "string" }, "element_ids": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "effect": { "enum": ["none", "fade", "wipe", "morph", "media-play"] }, "trigger": { "enum": ["with-previous", "on-click"] },
+        "start_s": { "type": "number", "minimum": 0 }, "duration_s": { "type": "number", "minimum": 0 }
+      }
+    },
+    "referenceBundle": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mode", "reference_revision", "plan_version", "approval_status", "approval_evidence", "visual_plate_png", "layout_blueprint_svg", "layout_map_json", "composite_preview_png"],
+      "properties": {
+        "mode": { "enum": ["no-text-layout", "full-page-ai-copy"] }, "reference_revision": { "type": "integer", "minimum": 1 },
+        "plan_version": { "type": "integer", "minimum": 1 }, "approval_status": { "enum": ["pending", "approved", "bypassed"] },
+        "approval_evidence": { "type": "string" }, "visual_plate_png": { "type": "string" },
+        "layout_blueprint_svg": { "type": "string" }, "layout_map_json": { "type": "string" }, "composite_preview_png": { "type": "string" }
+      }
+    },
+    "referenceMapping": {
+      "type": "object", "additionalProperties": false,
+      "required": ["reference_asset_id", "reference_revision", "plan_version", "canvas", "visual_zones", "object_mappings", "fidelity_strategy", "comparison_contract", "editable_scope", "approval_evidence"],
+      "properties": {
+        "reference_asset_id": { "type": "string" }, "reference_revision": { "type": "integer", "minimum": 1 },
+        "plan_version": { "type": "integer", "minimum": 1 }, "canvas": { "$ref": "#/$defs/canvas" },
+        "visual_zones": { "type": "array", "items": { "type": "object" } },
+        "object_mappings": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/objectMapping" } },
+        "fidelity_strategy": { "type": "string" }, "comparison_contract": { "type": "object" },
+        "editable_scope": { "type": "string" }, "approval_evidence": { "type": "string" }
+      }
+    },
+    "objectMapping": {
+      "type": "object", "additionalProperties": false,
+      "required": ["reference_object_id", "ppt_object_id", "frame", "z_order", "editable_status"],
+      "properties": {
+        "reference_object_id": { "type": "string" }, "ppt_object_id": { "type": "string" }, "frame": { "$ref": "#/$defs/frame" },
+        "z_order": { "type": "integer" }, "asset_id": { "type": ["string", "null"] }, "crop": { "type": ["object", "null"] },
+        "focal_point": { "type": ["object", "null"] }, "typography_slot_id": { "type": ["string", "null"] },
+        "editable_status": { "enum": ["native", "editable-vector", "independent-image", "flattened-approved"] }
+      }
+    }
+  }
+}
